@@ -18,7 +18,7 @@ BUGS:
                                  
 """
 import json
-import os, os.path
+import os 
 
 #Loop through all JSON files and 
 def readAllFiles(folderName):
@@ -29,17 +29,18 @@ def readAllFiles(folderName):
     for x in range(0,26):
         #Use ord() to increment the letter for the filepath
         letter = chr(ord('A') + x)
-        filePath = folderName + '\\' + letter +'\\'
+        filePath = folderName + '/' + letter
         readFromJSON(filePath)
   
 #Reads the string from the JSON file and returns it
 def readFromJSON(filePath):
     #Get current working directory, add it to file path
-    filePath = os.getcwd() + '\\' + filePath 
+    filePath = os.getcwd() + '/' + filePath 
     print(filePath)
     #Get the number of files in the folder so we know how many we need to read
     print(len(os.listdir(filePath)))
-    
+
+    #x = str(x)
     #Each filename for the JSONS is formatted as follows:
     # 'xxxxxxxxxxxx_keypoints.json'
     #Where the sequence of x's are integers that represent the frame number
@@ -52,10 +53,11 @@ def readFromJSON(filePath):
     #Can concatenate the file name! Since the long series of 0's increments to
     #represent each file, we can also increment it in a for loop when reading
     #in multiple files
-    #f = open(filePath + '\\' + 'VR1_' + x + '_keypoints.json')
+    #f = open(fileLoc + '\\' + 'VR1_' + x + '_keypoints.json')
     #data = json.load(f)
     #f.close()
     #return data
+   #parseData(data)
 
 def parseData(data):
     
@@ -68,7 +70,7 @@ def parseData(data):
     # keypoint mappings. For now, we're just using the pose_keypoints_2d
     # mapping, so these for loops go into the nested lists to retrieve it
     for people in data['people']:
-        for getKeypoints in people['pose_keypoints_2d']:
+        for getKeypoints in people['hand_right_keypoints_2d']:
             keypoints.append(getKeypoints)
             
     #print(keypoints)
@@ -80,20 +82,12 @@ def parseData(data):
     #[x coordinate, y coordinate, confidence level]
     keypointsList = [keypoints[x:x+3] for x in range(0, len(keypoints), 3)]
     
-    #print(keypointsList)
+    print(keypointsList)
     
     return keypointsList
 
 def main():
-    frameList = []  
-    
-    folderName = "Jakob_Keypoints"
-    #ADD LATER
-    #folderName = "Joseph_Keypoints"
-    #folderName = "Jasmine_Keypoints"
-    #folderName = "Austin_Keypoints"
-    
-    temp = readAllFiles(folderName)
+    readAllFiles('Jakob_Keypoints')
     
 if __name__ == "__main__":
     main()
