@@ -20,7 +20,7 @@ BUGS:
 
 #Read from the input file to get the JSON files location and the desired
 #keypoints for graphing.
-def readFromInput():
+def readJSONFile():
     #Open the file
     f = open('Input.txt', 'r')
     # The first line is the file location of the JSON files. The second line is
@@ -34,6 +34,10 @@ def readFromInput():
     inputs[1] = inputs[1].split(",")
     return inputs
 
+ #Loop through all JSON files and 
+ def readAllFiles():
+    
+  
 #Reads the string from the JSON file and returns it
 def readFromJSON(x,fileLoc):
     x = str(x)
