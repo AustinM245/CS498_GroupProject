@@ -17,23 +17,6 @@ Algorithm/Method:
 BUGS: 
                                  
 """
-
-#Read from the input file to get the JSON files location and the desired
-#keypoints for graphing.
-def readJSONFile():
-    #Open the file
-    f = open('Input.txt', 'r')
-    # The first line is the file location of the JSON files. The second line is
-    # a TRUE/FALSE list for which keypoints the user wants graphed.
-    inputs = f.readlines()
-    f.close()
-    
-    #Strip the file location of its trailing newline with strip()
-    inputs[0] = inputs[0].rstrip()
-    #Split the sequence of true/falses into a seperate list
-    inputs[1] = inputs[1].split(",")
-    return inputs
-
  #Loop through all JSON files and 
  def readAllFiles():
     
