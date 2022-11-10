@@ -18,7 +18,7 @@ BUGS:
                                  
 """
 import json
-import os, os.path
+import os 
 
 #Loop through all JSON files and 
 def readAllFiles(folderName):
@@ -31,9 +31,7 @@ def readAllFiles(folderName):
         letter = chr(ord('A') + x)
         filePath = folderName + '\\' + letter +'\\'
         data = readFromJSON(filePath)
-        #keyPointList = parseData(data)
         print(data)
-        
   
 #Reads the string from the JSON file and returns it
 def readFromJSON(filePath):
@@ -42,10 +40,10 @@ def readFromJSON(filePath):
     #print(filePath)
     #Get the number of files in the folder so we know how many we need to read
     numFiles = len(os.listdir(filePath))
-    
     #Can concatenate the file name! Since the long series of 0's increments to
     #represent each file, we can also increment it in a for loop when reading
     #in multiple files
+    
     data = []
     # Get the file pathnames in each folder and get ALL data from every JSON
     # file. Stuff it all into one big list data[] to be processed later
@@ -80,20 +78,12 @@ def parseData(data):
     #[x coordinate, y coordinate, confidence level]
     keypointsList = [keypoints[x:x+3] for x in range(0, len(keypoints), 3)]
     
-    #print(keypointsList)
+    print(keypointsList)
     
     return keypointsList
 
 def main():
-    frameList = []  
-    
-    folderName = "Jakob_Keypoints"
-    #ADD LATER
-    #folderName = "Joseph_Keypoints"
-    #folderName = "Jasmine_Keypoints"
-    #folderName = "Austin_Keypoints"
-    
-    temp = readAllFiles(folderName)
+    readAllFiles('Jakob_Keypoints')
     
 if __name__ == "__main__":
     main()
