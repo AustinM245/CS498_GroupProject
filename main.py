@@ -17,13 +17,31 @@ Algorithm/Method:
 BUGS: 
                                  
 """
- #Loop through all JSON files and 
- def readAllFiles():
+import json
+import os, os.path
+
+#Loop through all JSON files and 
+def readAllFiles(folderName):
+    #Create list to hold data
+    keypointData = []
+    
+    #Loop through the alphabet
+    for x in range(0,26):
+        #Use ord() to increment the letter for the filepath
+        letter = chr(ord('A') + x)
+        filePath = folderName + '\\' + letter +'\\'
+        readFromJSON(filePath)
+    
     
   
 #Reads the string from the JSON file and returns it
-def readFromJSON(x,fileLoc):
-    x = str(x)
+def readFromJSON(filePath):
+    #Get current working directory, add it to file path
+    filePath = os.getcwd() + '\\' + filePath 
+    print(filePath)
+    #Get the number of files in the folder so we know how many we need to read
+    print(len(os.listdir(filePath)))
+    
     #Each filename for the JSONS is formatted as follows:
     # 'xxxxxxxxxxxx_keypoints.json'
     #Where the sequence of x's are integers that represent the frame number
@@ -31,15 +49,15 @@ def readFromJSON(x,fileLoc):
     #but it needs to be 12 characters long, with remaining characters being
     #leading zeros. We can use .zfill(12) to add leading zeros that stop at 12
     #total characters
-    x = x.zfill(12)
+    #x = x.zfill(12)
     
     #Can concatenate the file name! Since the long series of 0's increments to
     #represent each file, we can also increment it in a for loop when reading
     #in multiple files
-    f = open(fileLoc + '\\' + 'VR1_' + x + '_keypoints.json')
-    data = json.load(f)
-    f.close()
-    return data
+    #f = open(filePath + '\\' + 'VR1_' + x + '_keypoints.json')
+    #data = json.load(f)
+    #f.close()
+    #return data
 
 def parseData(data):
     
@@ -67,3 +85,17 @@ def parseData(data):
     #print(keypointsList)
     
     return keypointsList
+
+def main():
+    frameList = []  
+    
+    folderName = "Jakob_Keypoints"
+    #ADD LATER
+    #folderName = "Joseph_Keypoints"
+    #folderName = "Jasmine_Keypoints"
+    #folderName = "Austin_Keypoints"
+    
+    temp = readAllFiles(folderName)
+    
+if __name__ == "__main__":
+    main()
