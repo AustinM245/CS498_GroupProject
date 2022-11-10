@@ -23,7 +23,8 @@ import os
 #Loop through all JSON files and 
 def readAllFiles(folderName):
     #Create list to hold data
-    keypointData = []
+    keypointDatax = []
+    keypointDatay = []
     
     #Loop through the alphabet
     for x in range(0,26):
@@ -31,8 +32,11 @@ def readAllFiles(folderName):
         letter = chr(ord('A') + x)
         filePath = folderName + '\\' + letter +'\\'
         allData = readFromJSON(filePath, x)
-        keypointData.append(allData)
-    print(keypointData)
+        keypointDatax = keypointDatax + allData[0]
+        keypointDatay = keypointDatay + allData[1]
+    keypointData = [keypointDatax, keypointDatay]
+    print(keypointData[0])
+    return(keypointData)
   
 #Reads the string from the JSON file and returns it
 def readFromJSON(filePath, yLabel):
@@ -82,8 +86,42 @@ def parseData(data):
     
     return keypointsList
 
+#TEMP
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.svm import LinearSVC
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+from sklearn.neighbors import KNeighborsClassifier
+#TEMP
+
+
 def main():
-    readAllFiles('Jakob_Keypoints')
+    keypointData = readAllFiles('Jakob_Keypoints')
     
+    #print(keypointData[0])
+    """
+    datax_train, datax_test, datay_train, datay_test = train_test_split(keypointData[0], keypointData[1])
+    
+    #print(datax_train)
+    #KNN (ball-tree algorithm)
+    KNN = KNeighborsClassifier(n_neighbors = 10, algorithm = 'ball_tree')
+    KNN.fit(datax_train,datay_train)
+    KNNPredictions1 = KNN.predict(datax_test)
+    KNNTestAccuracy1 = accuracy_score(datay_test, KNNPredictions1)
+    KNNTrainAccuracy1 = KNN.score(datax_train,datay_train)
+    print("KNN (ball-tree algorithm) training set accuracy: %.3f" % KNNTrainAccuracy1)
+    print("KNN (ball-tree algorithm) testing set accuracy: %.3f\n" % KNNTestAccuracy1)
+    
+    #Linear Support Vector machine (hinge loss, l2 regularizer)
+    linearSVM = make_pipeline(StandardScaler(),LinearSVC(penalty = 'l2', loss='hinge'))
+    linearSVM.fit(datax_train,datay_train)
+    linearSVMPredictions = linearSVM.predict(datax_test)
+    linearSVMTestAccuracy = accuracy_score(datay_test, linearSVMPredictions)
+    linearSVMTrainAccuracy = linearSVM.score(datax_train,datay_train)
+    print("Linear SVM training set accuracy (hinge loss, l2 regularizer): %.3f" % linearSVMTrainAccuracy)
+    print("Linear SVM testing set accuracy (hinge loss, l2 regularizer): %.3f\n" % linearSVMTestAccuracy)
+    """
 if __name__ == "__main__":
     main()
