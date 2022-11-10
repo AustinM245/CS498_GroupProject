@@ -17,6 +17,7 @@ Algorithm/Method:
 BUGS: 
                                  
 """
+<<<<<<< HEAD
 import json
 import os, os.path
 
@@ -32,6 +33,10 @@ def readAllFiles(folderName):
         filePath = folderName + '\\' + letter +'\\'
         readFromJSON(filePath)
     
+=======
+ #Loop through all JSON files and 
+ def readAllFiles():
+>>>>>>> f9eebbefdab4c7b8a66123c34d2c86a1831b6400
     
   
 #Reads the string from the JSON file and returns it
