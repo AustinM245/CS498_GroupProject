@@ -107,7 +107,7 @@ from sklearn.ensemble import GradientBoostingClassifier
 def main():
     keypointData = readAllFiles('Jakob_Keypoints')
     
-    print(len(keypointData[0]))
+    #print(len(keypointData[0]))
     
     for x in range(0,len(keypointData[0])-1):
         if len(keypointData[0][x]) != len(keypointData[0][x+1]):
