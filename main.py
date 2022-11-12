@@ -35,7 +35,7 @@ def readAllFiles(folderName):
         keypointDatax = keypointDatax + allData[0]
         keypointDatay = keypointDatay + allData[1]
     keypointData = [keypointDatax, keypointDatay]
-    print(keypointData[0])
+    #print(keypointData[0])
     return(keypointData)
   
 #Reads the string from the JSON file and returns it
@@ -78,33 +78,50 @@ def parseData(data):
         for getKeypoints in people['hand_right_keypoints_2d']:
             keypoints.append(getKeypoints)
     
+    #print(keypoints)
+    
     #After getting the keypoints, they are all in one big list. This command
     # parses the big list into 25 lists each with 3 elements in the following
     # form (as mentioned above)
     #[x coordinate, y coordinate, confidence level]
-    keypointsList = [keypoints[x:x+3] for x in range(0, len(keypoints), 3)]
+    #keypointsList = [keypoints[x:x+3] for x in range(0, len(keypoints), 3)]
     
-    return keypointsList
+    return keypoints
 
 #TEMP
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from sklearn.linear_model import Perceptron
+from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import hinge_loss
+from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 
-from sklearn.neighbors import KNeighborsClassifier
 #TEMP
 
 
 def main():
     keypointData = readAllFiles('Jakob_Keypoints')
     
+    print(len(keypointData[0]))
+    
+    for x in range(0,len(keypointData[0])-1):
+        if len(keypointData[0][x]) != len(keypointData[0][x+1]):
+            print("Problem at: ", x)
+    
+    
     #print(keypointData[0])
-    """
+    
     datax_train, datax_test, datay_train, datay_test = train_test_split(keypointData[0], keypointData[1])
     
     #print(datax_train)
+    
+    #LINEAR CLASSIFIERS
+    
     #KNN (ball-tree algorithm)
     KNN = KNeighborsClassifier(n_neighbors = 10, algorithm = 'ball_tree')
     KNN.fit(datax_train,datay_train)
@@ -114,6 +131,17 @@ def main():
     print("KNN (ball-tree algorithm) training set accuracy: %.3f" % KNNTrainAccuracy1)
     print("KNN (ball-tree algorithm) testing set accuracy: %.3f\n" % KNNTestAccuracy1)
     
+    #Perceptron
+    perc = Perceptron()
+    perc.fit(datax_train,datay_train)
+    perceptronPredictions = perc.predict(datax_test)
+    perceptronTestAccuracy = accuracy_score(datay_test, perceptronPredictions)
+    perceptronTrainAccuracy = perc.score(datax_train,datay_train)
+    print("Perceptron training set accuracy: %.3f" % perceptronTrainAccuracy)
+    print("Perceptron testing set accuracy: %.3f\n" % perceptronTestAccuracy)
+    
+    #Throws max iteration error. Could be fixed by normalizing data, tuning parameters,
+    #or setting max_iter to larger value. 
     #Linear Support Vector machine (hinge loss, l2 regularizer)
     linearSVM = make_pipeline(StandardScaler(),LinearSVC(penalty = 'l2', loss='hinge'))
     linearSVM.fit(datax_train,datay_train)
@@ -122,6 +150,5 @@ def main():
     linearSVMTrainAccuracy = linearSVM.score(datax_train,datay_train)
     print("Linear SVM training set accuracy (hinge loss, l2 regularizer): %.3f" % linearSVMTrainAccuracy)
     print("Linear SVM testing set accuracy (hinge loss, l2 regularizer): %.3f\n" % linearSVMTestAccuracy)
-    """
 if __name__ == "__main__":
     main()
