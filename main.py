@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on 
-
 Authors: Austin Morris, Jasmine Parsons, Jakob Clark, Joseph Hurley
 
 Professor: Dr. Eby 
