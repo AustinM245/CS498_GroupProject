@@ -2,19 +2,19 @@
 """
 Created on 
 
-Authors: 
+Authors: Austin Morris, Jasmine Parsons, Jakob Clark, Joseph Hurley
 
-Student ID: 
+Professor: Dr. Eby 
 
-Professors: 
+Class: CS498
 
-Class: 
+Purpose: To create a program capable of detecting different letters in American
+sign language using machine learning.
 
-Purpose:
+Algorithm/Method: Various algorithms will be used. Each team member will implement
+a simpelr algorithm while the entire team works together to implement a CNN
 
-Algorithm/Method: 
-
-BUGS: 
+BUGS: None known (yet)
                                  
 """
 import json
