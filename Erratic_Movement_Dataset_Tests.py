@@ -95,7 +95,7 @@ from sklearn.ensemble import GradientBoostingClassifier
 
 
 def main():
-    keypointData = readAllFiles('Austin_Erratic_Keypoints')
+    keypointData = readAllFiles('Austin_Eratic_Keypoints')
     
     #print(len(keypointData[0]))
     
