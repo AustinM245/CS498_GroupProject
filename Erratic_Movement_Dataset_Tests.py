@@ -6,6 +6,13 @@
 
 import json
 import os 
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.linear_model import Perceptron
+from sklearn.svm import LinearSVC
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 #Loop through all JSON files and 
 def readAllFiles(folderName):
@@ -77,24 +84,8 @@ def parseData(data):
 
 #def normalizeData()
 
-#TEMP
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from sklearn.linear_model import Perceptron
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import LinearSVC
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import hinge_loss
-from sklearn.ensemble import BaggingClassifier
-from sklearn.ensemble import GradientBoostingClassifier
 
-
-#TEMP
-
-
-def main():
+def run_Erratic():
     keypointData = readAllFiles('Austin_Eratic_Keypoints')
     
     #print(len(keypointData[0]))
@@ -133,12 +124,11 @@ def main():
     #Throws max iteration error. Could be fixed by normalizing data, tuning parameters,
     #or setting max_iter to larger value. 
     #Linear Support Vector machine (hinge loss, l2 regularizer)
-    linearSVM = make_pipeline(StandardScaler(),LinearSVC(penalty = 'l2', loss='hinge'))
+    linearSVM = make_pipeline(StandardScaler(),LinearSVC(penalty = 'l2', loss='hinge', max_iter = 1000000))
     linearSVM.fit(datax_train,datay_train)
     linearSVMPredictions = linearSVM.predict(datax_test)
     linearSVMTestAccuracy = accuracy_score(datay_test, linearSVMPredictions)
     linearSVMTrainAccuracy = linearSVM.score(datax_train,datay_train)
     print("Linear SVM training set accuracy (hinge loss, l2 regularizer): %.3f" % linearSVMTrainAccuracy)
     print("Linear SVM testing set accuracy (hinge loss, l2 regularizer): %.3f\n" % linearSVMTestAccuracy)
-if __name__ == "__main__":
-    main()
+
