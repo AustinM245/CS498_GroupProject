@@ -17,6 +17,15 @@ BUGS: None known (yet)
 """
 import json
 import os 
+from KNN import run_KNN
+from Erratic_Movement_Dataset_Tests import run_Erratic
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.linear_model import Perceptron
+from sklearn.svm import LinearSVC
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 #Loop through all JSON files and 
 def readAllFiles(folderName):
@@ -86,22 +95,6 @@ def parseData(data):
     
     return keypoints
 
-#TEMP
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from sklearn.linear_model import Perceptron
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import LinearSVC
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import hinge_loss
-from sklearn.ensemble import BaggingClassifier
-from sklearn.ensemble import GradientBoostingClassifier
-
-#TEMP
-
-
 def main():
     keypointData = readAllFiles('Jakob_Keypoints')
     
@@ -112,13 +105,15 @@ def main():
             print("Problem at: ", x)
     
     
-    #print(keypointData[0])
+    #print(keypointData[1])
     
     datax_train, datax_test, datay_train, datay_test = train_test_split(keypointData[0], keypointData[1])
     
     #print(datax_train)
     
     #LINEAR CLASSIFIERS
+    
+    print("--------For Simple Dataset--------")
     
     #KNN (ball-tree algorithm)
     KNN = KNeighborsClassifier(n_neighbors = 10, algorithm = 'ball_tree')
@@ -138,15 +133,30 @@ def main():
     print("Perceptron training set accuracy: %.3f" % perceptronTrainAccuracy)
     print("Perceptron testing set accuracy: %.3f\n" % perceptronTestAccuracy)
     
-    #Throws max iteration error. Could be fixed by normalizing data, tuning parameters,
-    #or setting max_iter to larger value. 
+    #Had previous problem of throwing error for Liblinear failing to converge.
+    #The data is already scaled with the StandardScalar() in the pipeline,
+    #so increasing max_iter to some very large value seemed to be the best
+    #solution
     #Linear Support Vector machine (hinge loss, l2 regularizer)
-    linearSVM = make_pipeline(StandardScaler(),LinearSVC(penalty = 'l2', loss='hinge'))
-    linearSVM.fit(datax_train,datay_train)
+    linearSVM = make_pipeline(StandardScaler(),LinearSVC(penalty = 'l2', loss='hinge', max_iter = 1000000))
+    linearSVM.fit(datax_train,datay_train) #Applies scaling on training data
     linearSVMPredictions = linearSVM.predict(datax_test)
     linearSVMTestAccuracy = accuracy_score(datay_test, linearSVMPredictions)
     linearSVMTrainAccuracy = linearSVM.score(datax_train,datay_train)
     print("Linear SVM training set accuracy (hinge loss, l2 regularizer): %.3f" % linearSVMTrainAccuracy)
     print("Linear SVM testing set accuracy (hinge loss, l2 regularizer): %.3f\n" % linearSVMTestAccuracy)
+
+    #Run our custom KNN algorithm. This will print out its own accuracy results
+    run_KNN(keypointData)
+
+    print("----------------------------------\n")
+    
+    print("--------For Erratic Dataset--------")
+    
+    run_Erratic()
+    
+    print("----------------------------------\n")
+
+
 if __name__ == "__main__":
     main()
