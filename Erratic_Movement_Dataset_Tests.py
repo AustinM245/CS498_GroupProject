@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-
-
+Author: Ausitn Morris
+Purpose: Tests machine learning algorithms on dataset that is not as simple as
+our original. Results are expexted to be more inaccurate.
 """
 
 import json

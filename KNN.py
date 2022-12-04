@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-
+Author: Austin Morris
+Purpose: Implements the K-Nearest-Neighbors (KNN) machine learning algorithm to
+test our data against.
+Problems: KNN is very expensive with large datasets, as it has to calculate the
+distance of each feature (in this case a frame) to EVERY other frame. This makes
+validation very difficult, as finding the best k normally is done in the code,
+but this would require running the whole algorithm many times to test, say, 
+k = 1-100. Thus, k was determined through our own testing. 
 """
 
 #Importing Fucntions
